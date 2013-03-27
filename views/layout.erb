@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf8">
+		<title>
+			<%= @title + ' | Presentator' %>
+		</title>
+		<link href="/reset.css" rel="stylesheet">
+		<link href="/style.css" rel="stylesheet">
+	</head>
+	<body>
+		<header>
+			<hgroup>
+				<h1><a href="/">Presentator</a></h1>
+				<h2>all your presentation are belong to us</h2>
+			</hgroup>
+		</header>
+		
+		<div id="main">
+			<%= yield %>
+		</div>
+		
+		<footer>
+		 <p><small>for science</small></p>
+		</footer>
+	</body>
+</html>

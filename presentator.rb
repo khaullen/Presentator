@@ -27,5 +27,6 @@ end
 
 
 get '/' do
-	
+	@title = 'Today'
+	erb :home
 end
