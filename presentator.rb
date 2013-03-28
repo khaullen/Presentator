@@ -38,7 +38,9 @@ get '/' do
 		# thursday
 		@presentations = Presentation.all(:presentation_date => Date.today)
 		@title = 'Today'
-		erb :home
+		erb :home do
+			erb :presentations
+		end
 	else
 		# redirect to most recent archive
 		redirect "/archive/#{last_thursday}"
@@ -61,3 +63,7 @@ get '/archive/:presentation_date' do |date|
 	@title = date
 	erb :archive
 end
+
+
+
+
