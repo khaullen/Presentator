@@ -34,7 +34,7 @@ end
 
 get '/' do
 	case Date.today.cwday
-	when 3
+	when 4
 		# thursday
 		@presentations = Presentation.all(:presentation_date => Date.today)
 		@title = 'Today'
@@ -43,6 +43,17 @@ get '/' do
 		# redirect to most recent archive
 		redirect "/archive/#{last_thursday}"
 	end
+end
+
+post '/' do
+	p = Presentation.new
+	p.topic = params[:topic]
+	p.presenter = params[:presenter]
+	p.link = params[:link]
+	p.created_at = p.updated_at = DateTime.now
+	p.presentation_date = Date.today
+	p.save
+	redirect '/'
 end
 
 get '/archive/:presentation_date' do |date|
