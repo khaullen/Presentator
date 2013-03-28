@@ -12,7 +12,7 @@ class Presentation
 	property :presenter, String, :required => true
 	property :topic, Text, :required => true
 	property :link, Text
-	property :time_allotted, Integer, :default => 180
+	property :time_allotted, Integer, :default => 120
 	property :presentation_date, Date, :required => true
 	property :complete, Boolean, :required => true, :default => false
 	property :created_at, DateTime
@@ -63,7 +63,5 @@ get '/archive/:presentation_date' do |date|
 	@title = date
 	erb :archive
 end
-
-
 
 
