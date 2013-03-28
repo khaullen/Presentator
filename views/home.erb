@@ -13,17 +13,20 @@
 	</form>
 </section>
 
-<% @presentations.each do |presentation| %>
-	<article <%= 'class="complete"' if presentation.complete%>>
+<% @presentations.each do |p| %>
+	<article <%= 'class="complete"' if p.complete%>>
 		<p>
-			<%= presentation.topic %>
-			<span><a href="/<%= presentation.id %>">[edit]</a></span>
+			<a href="http://<%= p.link %>/"><%= p.topic %></a>
+			<span><a href="/<%= p.id %>">[edit]</a></span>
 		</p>
 		<p class="links">
-			<a href="/<%= presentation.id %>/complete">&#8623;</a>
+			<a href="/<%= p.id %>/complete">&#8623;</a>
 		</p>
 		<p class="meta">
-			Created: <%= presentation.created_at %>
+			<%= p.presenter %>
+		</p>
+		<p class="meta">
+			Created: <%= p.created_at %>
 		</p>
 	</article>
 <% end %>
