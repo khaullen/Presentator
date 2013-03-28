@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require 'data_mapper'
+require 'date'
 
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/presentator.db")
 
@@ -26,7 +27,26 @@ helpers do
 end
 
 
+def last_thursday(weeks_ago = 0)
+	today = Date.today
+	today - (today.cwday + 3) % 7 - weeks_ago * 7
+end
+
 get '/' do
-	@title = 'Today'
-	erb :home
+	case Date.today.cwday
+	when 4
+		# thursday
+		@presentations = Presentation.all(:presentation_date => Date.today)
+		@title = 'Today'
+		erb :home
+	else
+		# redirect to most recent archive
+		redirect "/archive/#{last_thursday}"
+	end
+end
+
+get '/archive/:presentation_date' do |date|
+	@presentations = Presentation.all(:presentation_date => date)
+	@title = date
+	erb :archive
 end
