@@ -1,0 +1,29 @@
+<section id="add">
+	<form action="/" method="post">
+		<p>
+			<textarea name="topic" placeholder="Topic"></textarea>
+		</p>
+		<p>
+			<textarea name="presenter" placeholder="Your name"></textarea>
+		</p>
+		<p>
+			<textarea name="link" placeholder="A link to your stuff&hellip;"></textarea>
+		</p>
+		<input type="submit" value="Enqueue">
+	</form>
+</section>
+
+<% @presentations.each do |presentation| %>
+	<article <%= 'class="complete"' if presentation.complete%>>
+		<p>
+			<%= presentation.topic %>
+			<span><a href="/<%= presentation.id %>">[edit]</a></span>
+		</p>
+		<p class="links">
+			<a href="/<%= presentation.id %>/complete">&#8623;</a>
+		</p>
+		<p class="meta">
+			Created: <%= presentation.created_at %>
+		</p>
+	</article>
+<% end %>
