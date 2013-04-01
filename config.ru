@@ -1,3 +1,3 @@
-require "presentator"
+require "./presentator"
 
 run Sinatra::Application
