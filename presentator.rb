@@ -4,7 +4,7 @@ require 'sinatra'
 require 'data_mapper'
 require 'date'
 
-DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/presentator.db")
+DataMapper::setup(:default, ENV['DATABASE_URL'] || "postgres://khaullen:regan@localhost/presentator")
 
 class Presentation
 	include DataMapper::Resource
@@ -34,7 +34,7 @@ end
 
 get '/' do
 	case Date.today.cwday
-	when 4
+	when 1
 		# thursday
 		@presentations = Presentation.all(:presentation_date => Date.today)
 		@title = 'Today'
