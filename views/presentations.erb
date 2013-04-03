@@ -1,8 +1,17 @@
-<% @presentations.each do |p| %>
+<% @presentations.each_with_index do |p, i| %>
 	<article <%= 'class="complete"' if p.complete%>>
 		<p class="topic">
 			<a href="http://<%= p.link %>/"><%= p.topic %></a>
-			<!--<span><a href="/<%= p.id %>">[edit]</a></span>-->
+			<% if @title.eql?('Admin') %>
+				<% case i
+					 when 0 %>
+					<span>Start</span>
+				<% else %>
+					<span>Up</span>
+				<% end %>
+			<% else %>
+				<span><a href="/<%= p.id %>">[edit]</a></span>
+			<% end %>
 		</p>
 		<p class="meta"><%= p.presenter %></p>
 		<p class="meta">

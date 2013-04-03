@@ -64,4 +64,10 @@ get '/archive/:presentation_date' do |date|
 	erb :archive
 end
 
+get '/admin' do
+	@presentations = Presentation.all(:presentation_date => Date.today)
+	@title = 'Admin'
+	erb :presentations
+end
+
 
