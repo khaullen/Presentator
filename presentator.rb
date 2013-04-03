@@ -34,7 +34,7 @@ end
 
 get '/' do
 	case Date.today.cwday
-	when 1
+	when 3
 		# thursday
 		@presentations = Presentation.all(:presentation_date => Date.today)
 		@title = 'Today'

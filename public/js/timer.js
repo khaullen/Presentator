@@ -1,14 +1,15 @@
 $(function() {
-	var endTimeStamp = 1364516955000;
+// 	In practice we need to request endTimeStamp from server
+	var endTimeStamp = 1464516955000;
 	var timer = $('<p class="timer"></p>');
 	$(".topic").eq(0).after(timer);
 	
 	var timeFunction = function() {
 		var currentTime = new Date();
-		var seconds = parseInt((endTimeStamp - currentTime.getTime()) / 1000);
-		var hours = parseInt(seconds / 3600) % 24;
-		var minutes = parseInt(seconds / 60) % 60;
-		var seconds = seconds % 60;
+		var totalSeconds = parseInt((endTimeStamp - currentTime.getTime()) / 1000);
+		var hours = parseInt(totalSeconds / 3600) % 24;
+		var minutes = parseInt(totalSeconds / 60) % 60;
+		var seconds = totalSeconds % 60;
 		
 		var timeArr = [];
 		if (hours) {
