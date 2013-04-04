@@ -99,14 +99,14 @@ p {
 	color: #888;
 }
 
-.timer {
+.countdownString {
 	font-size: 1.8em;
 	line-height: 0.8em;
 	float: right;
 	margin: -10px 0 0;
 }
 
-.timer a {
+.countdownString a {
 	display: block;
 	text-decoration: none;
 }
