@@ -19,15 +19,19 @@ class Presentation
 	property :updated_at, Time
 	property :in_progress, Boolean, :required => true, :default => false
 	property :started_at, Time
+	property :ended_at, Time
 end
 
 DataMapper.finalize.auto_upgrade!
 
 class Presentation
 	def finish_at
-		#@started_at && @started_at + @time_alloted
-		(Time.now + @time_allotted).strftime('%s')
+		@started_at && (@started_at + @time_allotted).strftime('%s')
 	end
+end
+
+configure do
+	@@last_updated = Time.now
 end
 
 helpers do
@@ -43,9 +47,11 @@ end
 
 get '/' do
 	case Date.today.cwday
-	when 3
+	when 4
 		# thursday
-		@presentations = Presentation.all(:presentation_date => Date.today)
+		presentations = Presentation.all(:presentation_date => Date.today)
+		@upcoming = presentations.select { |p| !p.complete }
+		@completed = presentations.select { |p| p.complete }
 		@title = 'Today'
 		erb :home do
 			erb :presentations
@@ -64,6 +70,7 @@ post '/' do
 	p.created_at = p.updated_at = Time.now
 	p.presentation_date = Date.today
 	p.save
+	@@last_updated = Time.now
 	redirect '/'
 end
 
@@ -74,9 +81,41 @@ get '/archive/:presentation_date' do |date|
 end
 
 get '/admin' do
-	@presentations = Presentation.all(:presentation_date => Date.today)
+	presentations = Presentation.all(:presentation_date => Date.today)
+	@upcoming = presentations.select { |p| !p.complete }
+	@completed = presentations.select { |p| p.complete }
 	@title = 'Admin'
 	erb :presentations
+end
+
+post '/start-presentation/:id' do |id|
+	p = Presentation.all(:id => id)[0]
+	p.started_at = p.updated_at = Time.now
+	p.in_progress = true
+	p.save
+	@@last_updated = Time.now
+	p.finish_at
+end
+
+post '/stop-presentation/:id' do |id|
+	p = Presentation.all(:id => id)[0]
+	p.ended_at = p.updated_at = Time.now
+	p.in_progress = false
+	p.complete = true
+	p.save
+	@@last_updated = Time.now
+end
+
+get '/update/:name' do |name|
+	if (Time.now - @@last_updated > 20)
+		0		
+	else
+		presentations = Presentation.all(:presentation_date => Date.today)
+		@upcoming = presentations.select { |p| !p.complete }
+		@completed = presentations.select { |p| p.complete }
+		@title = name
+		erb :presentations, :layout => false
+	end
 end
 
 

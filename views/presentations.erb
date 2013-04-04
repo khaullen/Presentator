@@ -1,20 +1,23 @@
-<% @presentations.each_with_index do |p, i| %>
-	<% button_text = p.in_progress ? 'End' : 'Start' %>
+<% @upcoming.each_with_index do |p, i| %>
+	<% button_text = p.in_progress ? 'Stop' : 'Start' %>
 	<% classes = p.in_progress ? 'trigger' : 'trigger start' %>
-	<article<%= ' class="complete"' if p.complete%>>
+	<article class="upcoming" id="<%= p.id %>">
 		<p class="topic">
 			<a href="http://<%= p.link %>/"><%= p.topic %></a>
-			<% if @title.eql?('Admin') %>
-				<% case i
-					 when 0 %>
+			<% case i
+				 when 0 %>
+				<% if @title.capitalize.eql?('Admin') %>
 					<button class="<%= classes %>"><%= button_text %></button>
-					<p class="countdownString" end-time="<%= p.finish_at %>"></p>
 				<% else %>
-				<!-- This should trigger page reload, no ajax -->
-					<span>Up</span>
+					<span><a href="/<%= p.id %>">[edit]</a></span>
 				<% end %>
+				<p class="countdownString" end-time="<%= p.finish_at %>"></p>
 			<% else %>
-				<span><a href="/<%= p.id %>">[edit]</a></span>
+				<% if @title.eql?('Admin') %>
+					<span>Up</span>
+				<% else %>
+					<span><a href="/<%= p.id %>">[edit]</a></span>
+				<% end %>
 			<% end %>
 		</p>
 		<p class="meta"><%= p.presenter %></p>
@@ -24,4 +27,15 @@
 	</article>
 <% end %>
 
-<script type="text/javascript" src="/js/timer.js"></script>
+<% @completed.each_with_index do |p, i| %>
+	<article class="complete" id="<%= p.id %>">
+		<p class="topic">
+			<a href="http://<%= p.link %>/"><%= p.topic %></a>
+			<span><a href="/<%= p.id %>">[edit]</a></span>
+		</p>
+		<p class="meta"><%= p.presenter %></p>
+		<p class="meta">
+			Created: <%= p.created_at %>
+		</p>
+	</article>
+<% end %>
