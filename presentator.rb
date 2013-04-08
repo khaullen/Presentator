@@ -10,33 +10,50 @@ db = SETTINGS[:database]
 db_string = db[:type] + "://" + db[:user] + ":" + db[:password] + "@" + db[:server] + "/" + db[:name]
 DataMapper::setup(:default, ENV['DATABASE_URL'] || db_string)
 
+class Day
+  include DataMapper::Resource
+  
+	property :presentation_date, Date, :key => true
+	property :last_updated, Time
+	
+	has n, :presentations
+	
+	def self.today
+	  self.get(Date.today)
+	end
+end
+
 class Presentation
 	include DataMapper::Resource
+	
 	property :id, Serial
 	property :presenter, String, :required => true
 	property :topic, Text, :required => true
 	property :link, Text
 	property :time_allotted, Integer, :default => 120
-	property :presentation_date, Date, :required => true
 	property :complete, Boolean, :required => true, :default => false
 	property :created_at, Time
 	property :updated_at, Time
 	property :in_progress, Boolean, :required => true, :default => false
 	property :started_at, Time
 	property :ended_at, Time
-end
-
-DataMapper.finalize.auto_upgrade!
-
-class Presentation
+	
+	belongs_to :day
+	
+	def self.upcoming
+	  all(:complete => false, :day => { :presentation_date => Date.today })
+	end
+	
+	def self.completed
+	  all(:complete=>true, :day => { :presentation_date => Date.today })
+	end
+	
 	def finish_at
 		@started_at && (@started_at + @time_allotted).strftime('%s')
 	end
 end
 
-configure do
-	@@last_updated = Time.now
-end
+DataMapper.finalize.auto_upgrade!
 
 helpers do
 	include Rack::Utils
@@ -52,9 +69,9 @@ end
 get '/' do
 	case Date.today.cwday
 	when SETTINGS[:presentation][:day]
-		presentations = Presentation.all(:presentation_date => Date.today)
-		@upcoming = presentations.select { |p| !p.complete }
-		@completed = presentations.select { |p| p.complete }
+		# thursday
+		@upcoming = Presentation.upcoming
+		@completed = Presentation.completed
 		@title = 'Today'
 		erb :home do
 			erb :presentations
@@ -66,59 +83,62 @@ get '/' do
 end
 
 post '/' do
-	p = Presentation.new
-	p.topic = params[:topic]
-	p.presenter = params[:presenter]
-	p.link = params[:link]
-	p.created_at = p.updated_at = Time.now
-	p.presentation_date = Date.today
-	p.save
-	@@last_updated = Time.now
+	p = Presentation.create(
+	  :topic      =>  params[:topic],
+	  :presenter  =>  params[:presenter],
+	  :link       =>  params[:link],
+	  :created_at =>  Time.now,
+	  :updated_at =>  Time.now,
+	  :day        =>  Day.first_or_create(
+	    { :presentation_date  =>  Date.today },
+	    { :last_updated       =>  Time.now }
+	  )
+	)
 	redirect '/'
 end
 
 get '/archive/:presentation_date' do |date|
-	@presentations = Presentation.all(:presentation_date => date)
+	@presentations = Presentation.all(:day => { :presentation_date => date })
 	@title = date
 	erb :archive
 end
 
 get '/admin' do
-	presentations = Presentation.all(:presentation_date => Date.today)
-	@upcoming = presentations.select { |p| !p.complete }
-	@completed = presentations.select { |p| p.complete }
+  @upcoming = Presentation.upcoming
+  @completed = Presentation.completed
 	@title = 'Admin'
 	erb :presentations
 end
 
 post '/start-presentation/:id' do |id|
-	p = Presentation.all(:id => id)[0]
-	p.started_at = p.updated_at = Time.now
-	p.in_progress = true
-	p.save
-	@@last_updated = Time.now
+	p = Presentation.get(id)
+	p.update(
+	  :started_at   =>  Time.now,
+	  :updated_at   =>  Time.now,
+	  :in_progress  =>  true
+	)
+	p.day.update( :last_updated => Time.now )
 	p.finish_at
 end
 
 post '/stop-presentation/:id' do |id|
-	p = Presentation.all(:id => id)[0]
-	p.ended_at = p.updated_at = Time.now
-	p.in_progress = false
-	p.complete = true
-	p.save
-	@@last_updated = Time.now
+	p = Presentation.get(id)
+  p.update(
+	  :ended_at     =>  Time.now,
+	  :updated_at   =>  Time.now,
+	  :in_progress  =>  false,
+	  :complete     =>  true
+	)
+	p.day.update( :last_updated => Time.now )
 end
 
 get '/update/:name' do |name|
-	if (Time.now - @@last_updated > 20)
-		0		
+	if (Time.now - Day.today.last_updated > 20)
+		204	
 	else
-		presentations = Presentation.all(:presentation_date => Date.today)
-		@upcoming = presentations.select { |p| !p.complete }
-		@completed = presentations.select { |p| p.complete }
+    @upcoming = Presentation.upcoming
+    @completed = Presentation.completed
 		@title = name
 		erb :presentations, :layout => false
 	end
 end
-
-
