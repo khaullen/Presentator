@@ -1,23 +1,10 @@
 <% @upcoming.each_with_index do |p, i| %>
-	<% button_text = p.in_progress ? 'Stop' : 'Start' %>
-	<% classes = p.in_progress ? 'trigger' : 'trigger start' %>
 	<article class="upcoming" id="<%= p.id %>">
 		<p class="topic">
 			<a href="http://<%= p.link %>/"><%= p.topic %></a>
-			<% case i
-				 when 0 %>
-				<% if @title.capitalize.eql?('Admin') %>
-					<button class="<%= classes %>"><%= button_text %></button>
-				<% else %>
-					<span><a href="/<%= p.id %>">[edit]</a></span>
-				<% end %>
+			<span><a href="/<%= p.id %>">[edit]</a></span>
+			<% if i == 0 %>
 				<p class="countdownString" end-time="<%= p.finish_at %>"></p>
-			<% else %>
-				<% if @title.eql?('Admin') %>
-					<span>Up</span>
-				<% else %>
-					<span><a href="/<%= p.id %>">[edit]</a></span>
-				<% end %>
 			<% end %>
 		</p>
 		<p class="meta"><%= p.presenter %></p>

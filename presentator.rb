@@ -109,7 +109,7 @@ get '/admin' do
   @upcoming = Presentation.upcoming
   @completed = Presentation.completed
 	@title = 'Admin'
-	erb :presentations do
+	erb :admin do
         erb :completed
     end
 end
@@ -136,15 +136,22 @@ post '/stop-presentation/:id' do |id|
 	p.day.update( :last_updated => Time.now )
 end
 
-get '/update/:name' do |name|
-	if (Time.now - Day.today.last_updated > 20)
+def get_template(template_name) 
+    if (Time.now - Day.today.last_updated > 20)
 		204	
 	else
-    @upcoming = Presentation.upcoming
-    @completed = Presentation.completed
-		@title = name
-		erb :presentations, :layout => false do
+        @upcoming = Presentation.upcoming
+        @completed = Presentation.completed
+		erb template_name, :layout => false do
             erb :completed
         end
 	end
+end
+
+get '/admin/update' do
+    get_template(:admin)
+end
+
+get '/update' do
+    get_template(:presentations)
 end

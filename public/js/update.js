@@ -21,7 +21,7 @@ var getUpdate = function (cb) {
 	var failure = function(response) {
 		console.log(response);
 	};
-	sendAjaxRequest('GET', '/update' + (window.location.pathname === '/admin' ? '/admin' : '/today'), cb, updatePresentations, failure);
+	sendAjaxRequest('GET', (window.location.pathname === '/admin' ? '/admin' : '') + '/update', cb, updatePresentations, failure);
 };
 
 var updatePresentations = function (html) {
@@ -32,4 +32,4 @@ var updatePresentations = function (html) {
 	}
 };
 
-//setInterval(function () { getUpdate(callback); }, 10000);
+setInterval(function () { getUpdate(callback); }, 10000);
