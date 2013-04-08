@@ -3,8 +3,12 @@
 require 'sinatra'
 require 'data_mapper'
 require 'date'
+require './settings.rb'
 
-DataMapper::setup(:default, ENV['DATABASE_URL'] || "postgres://khaullen:regan@localhost/presentator")
+# Build database connection string from settings and setup the connection
+db = SETTINGS[:database]
+db_string = db[:type] + "://" + db[:user] + ":" + db[:password] + "@" + db[:server] + "/" + db[:name]
+DataMapper::setup(:default, ENV['DATABASE_URL'] || db_string)
 
 class Presentation
 	include DataMapper::Resource
@@ -47,8 +51,7 @@ end
 
 get '/' do
 	case Date.today.cwday
-	when 4
-		# thursday
+	when SETTINGS[:presentation][:day]
 		presentations = Presentation.all(:presentation_date => Date.today)
 		@upcoming = presentations.select { |p| !p.complete }
 		@completed = presentations.select { |p| p.complete }

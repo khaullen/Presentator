@@ -32,4 +32,4 @@ var updatePresentations = function (html) {
 	}
 };
 
-setInterval(function () { getUpdate(callback); }, 10000);
+//setInterval(function () { getUpdate(callback); }, 10000);

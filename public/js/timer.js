@@ -1,4 +1,5 @@
 var Timer = (function () {
+
 	// Constructor
 	var timer = function (article, options) {
 		this.options = options || {};
@@ -10,7 +11,7 @@ var Timer = (function () {
 		if (this.endTime) this.startTimer();
 		
 		var _this = this;
-		if (this.trigger) this.trigger.addEventListener('click', function (event) { _this.handleClick.call(_this); });
+        if (this.trigger) this.trigger.addEventListener('click', function (event) { _this.handleClick(); });
 	};
 	
 	// Prototype
@@ -44,7 +45,7 @@ var Timer = (function () {
 		startTimer: function () {
 		  var _this = this;
 			this.setTime();
-			this.intervalId = setInterval(function () { _this.setTime.call(_this); }, 1000);
+            this.intervalId = setInterval(function () { _this.setTime(); }, 1000);
 		},
 		sendStartRequest: function (callback) {
 			var _this = this;
