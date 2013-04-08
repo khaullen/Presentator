@@ -27,15 +27,6 @@
 	</article>
 <% end %>
 
-<% @completed.each_with_index do |p, i| %>
-	<article class="complete" id="<%= p.id %>">
-		<p class="topic">
-			<a href="http://<%= p.link %>/"><%= p.topic %></a>
-			<span><a href="/<%= p.id %>">[edit]</a></span>
-		</p>
-		<p class="meta"><%= p.presenter %></p>
-		<p class="meta">
-			Created: <%= p.created_at %>
-		</p>
-	</article>
-<% end %>
+<div id="completed">
+    <%= yield %>
+</div>

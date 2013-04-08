@@ -74,7 +74,9 @@ get '/' do
 		@completed = Presentation.completed
 		@title = 'Today'
 		erb :home do
-			erb :presentations
+			erb :presentations do
+                erb :completed
+            end
 		end
 	else
 		# redirect to most recent archive
@@ -107,7 +109,9 @@ get '/admin' do
   @upcoming = Presentation.upcoming
   @completed = Presentation.completed
 	@title = 'Admin'
-	erb :presentations
+	erb :presentations do
+        erb :completed
+    end
 end
 
 post '/start-presentation/:id' do |id|
@@ -139,6 +143,8 @@ get '/update/:name' do |name|
     @upcoming = Presentation.upcoming
     @completed = Presentation.completed
 		@title = name
-		erb :presentations, :layout => false
+		erb :presentations, :layout => false do
+            erb :completed
+        end
 	end
 end
