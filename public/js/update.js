@@ -1,35 +1,44 @@
-var sendAjaxRequest = function (type, url, callback, success, failure) {
-	var request = new XMLHttpRequest();
-	request.onload = function(event) {
-		callback(event, success, failure);
-	};
-	request.open(type, url, true);
-	request.send();
+var utilities = {
+    makeAjaxRequest: function (type, url, success) {
+        var request = new XMLHttpRequest();
+        var _this = this;
+        request.onload = function(event) {
+            if (event.target.readyState === 4) {
+                if (event.target.status === 200) {
+                    success(event.target.responseText);
+                } 
+                else if (event.target.status === 204) {
+                }
+                else {
+                    _this.handleError(event.target.responseText);
+                }
+            }
+        };
+        request.open(type, url, true);
+        request.send();
+    },
+    handleError: function(message) {
+        console.error(message);
+    }
 };
 
-var callback = function (event, success, failure) {
-	if (event.target.readyState === 4) {
-		if (event.target.status === 200) {
-			success(event.target.responseText);
-		} else {
-			failure(event.target.responseText);
-		}
-	}
+var presentator = {
+    updatePresentations: function () {
+        var _this = this;
+        var success = function(html) {
+            _this.renderPresentations(html);
+        };
+        utilities.makeAjaxRequest('GET', (window.location.pathname === '/admin' ? '/admin' : '') + '/update', success);
+    },
+    renderPresentations: function (html) {
+        var main = document.getElementById('presentations');
+        main.innerHTML = html;
+        t = createTimer();
+    },
+    initialize: function() {
+        var _this = this;
+        setInterval(function () { _this.updatePresentations(); }, 10000);
+    }
 };
 
-var getUpdate = function (cb) {
-	var failure = function(response) {
-		console.log(response);
-	};
-	sendAjaxRequest('GET', (window.location.pathname === '/admin' ? '/admin' : '') + '/update', cb, updatePresentations, failure);
-};
-
-var updatePresentations = function (html) {
-	if (html != "0") {
-		var main = document.getElementById('presentations');
-		main.innerHTML = html;
-		t = createTimer();
-	}
-};
-
-setInterval(function () { getUpdate(callback); }, 10000);
+presentator.initialize();
