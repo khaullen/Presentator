@@ -1,9 +1,9 @@
 var Timer = (function () {
 
-    var formatTime = function(time) {
-        var absolute = Math.abs(time);
-        return (time < 10 && time > -10) ? "0" + absolute : absolute;
-    };
+  var formatTime = function(time) {
+    var absolute = Math.abs(time);
+    return (time < 10 && time > -10) ? "0" + absolute : absolute;
+  };
 
 	// Constructor
 	var timer = function (article, options) {
@@ -16,7 +16,7 @@ var Timer = (function () {
 		if (this.endTime) this.startTimer();
 		
 		var _this = this;
-        if (this.trigger) this.trigger.addEventListener('click', function (event) { _this.handleClick(); });
+    if (this.trigger) this.trigger.addEventListener('click', function (event) { _this.handleClick(); });
 	};
 	
 	// Prototype
@@ -31,40 +31,39 @@ var Timer = (function () {
 		
 			var timeArr = [];
 			if (hours) timeArr.push(formatTime(hours));
-            timeArr.push(formatTime(minutes));
-            timeArr.push(formatTime(seconds));
-		
-            if (totalSeconds < 0) {
-                this.countdownString.innerHTML = "-" + timeArr.join(":");
-                this.countdownString.className = "countdownString negative";
-            }
-            else {
-                this.countdownString.innerHTML = timeArr.join(":");
-            }
+      timeArr.push(formatTime(minutes));
+      timeArr.push(formatTime(seconds));
+
+      if (totalSeconds < 0) {
+        this.countdownString.innerHTML = "-" + timeArr.join(":");
+        utilities.changeClassName('negative', this.countdownString, true);
+      } else {
+        this.countdownString.innerHTML = timeArr.join(":");
+      }
 		},
 		handleClick: function () {
-			if (this.trigger.className.split(" ")[1] === "start") {
+			if (utilities.hasClassName('start', this.trigger)) {
 				this.sendStartRequest();
 				this.trigger.innerHTML = "Stop";
-				this.trigger.className = "trigger";
+				utilities.changeClassName('start', this.trigger, false);
 			} else {
 				this.sendStopRequest();
 				this.trigger.innerHTML = "Start";
-				this.trigger.className = "trigger start";
+        utilities.changeClassName('start', this.trigger, true);
 			}
 		},
 		startTimer: function () {
 		  var _this = this;
 			this.setTime();
-            this.intervalId = setInterval(function () { _this.setTime(); }, 1000);
+      this.intervalId = setInterval(function () { _this.setTime(); }, 1000);
 		},
 		sendStartRequest: function () {
-            var _this = this;
-            var success = function(response) {
-                _this.endTime = response;
-                _this.startTimer();
-            };
-            utilities.makeAjaxRequest('POST', '/start-presentation/' + _this.id, success);
+      var _this = this;
+      var success = function(response) {
+        _this.endTime = response;
+        _this.startTimer();
+      };
+      utilities.makeAjaxRequest('POST', '/start-presentation/' + _this.id, success);
 		},
 		stopTimer: function () {
 			clearInterval(this.intervalId);
@@ -72,11 +71,11 @@ var Timer = (function () {
 		},
 		sendStopRequest: function () {
 			var _this = this;
-            var success = function() {
-                _this.stopTimer();
-                presentator.updatePresentations();
-            };
-            utilities.makeAjaxRequest('POST', '/stop-presentation/' + _this.id, success);
+      var success = function() {
+        _this.stopTimer();
+        presentator.updatePresentations();
+      };
+      utilities.makeAjaxRequest('POST', '/stop-presentation/' + _this.id, success);
 		}
 	};
 	
