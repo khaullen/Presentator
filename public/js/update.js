@@ -26,7 +26,7 @@ var getUpdate = function (cb) {
 
 var updatePresentations = function (html) {
 	if (html != "0") {
-		var main = document.getElementById('main');
+		var main = document.getElementById('presentations');
 		main.innerHTML = html;
 		t = createTimer();
 	}

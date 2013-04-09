@@ -1,23 +1,25 @@
-<% @upcoming.each_with_index do |p, i| %>
-	<% button_text = p.in_progress ? 'Stop' : 'Start' %>
-	<% classes = p.in_progress ? 'trigger' : 'trigger start' %>
-	<article class="upcoming" id="<%= p.id %>">
-		<p class="topic">
-			<a href="http://<%= p.link %>/"><%= p.topic %></a>
-			<% if i == 0 %>
-				<button class="<%= classes %>"><%= button_text %></button>
-				<p class="countdownString" end-time="<%= p.finish_at %>"></p>
-            <% else %>
-			    <span>Up</span>
-			<% end %>
-		</p>
-		<p class="meta"><%= p.presenter %></p>
-		<p class="meta">
-			Created: <%= p.created_at %>
-		</p>
-	</article>
-<% end %>
+<div id="presentations">
+    <% @upcoming.each_with_index do |p, i| %>
+        <% button_text = p.in_progress ? 'Stop' : 'Start' %>
+        <% classes = p.in_progress ? 'trigger' : 'trigger start' %>
+        <article class="upcoming" id="<%= p.id %>">
+            <p class="topic">
+                <a href="http://<%= p.link %>/"><%= p.topic %></a>
+                <% if i == 0 %>
+                    <button class="<%= classes %>"><%= button_text %></button>
+                    <p class="countdownString" end-time="<%= p.finish_at %>"></p>
+                <% else %>
+                    <span>Up</span>
+                <% end %>
+            </p>
+            <p class="meta"><%= p.presenter %></p>
+            <p class="meta">
+                Created: <%= p.created_at %>
+            </p>
+        </article>
+    <% end %>
 
-<div id="completed">
-    <%= yield %>
+    <div id="completed">
+        <%= yield %>
+    </div>
 </div>

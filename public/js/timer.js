@@ -1,5 +1,10 @@
 var Timer = (function () {
 
+    var formatTime = function(time) {
+        var absolute = Math.abs(time);
+        return (time < 10 && time > -10) ? "0" + absolute : absolute;
+    };
+
 	// Constructor
 	var timer = function (article, options) {
 		this.options = options || {};
@@ -25,11 +30,17 @@ var Timer = (function () {
 			var seconds = totalSeconds % 60;
 		
 			var timeArr = [];
-			if (hours) timeArr.push(hours < 10 ? "0" + hours : hours);
-			timeArr.push(minutes < 10 ? "0" + minutes : minutes);
-			timeArr.push(seconds < 10 ? "0" + seconds : seconds);
+			if (hours) timeArr.push(formatTime(hours));
+            timeArr.push(formatTime(minutes));
+            timeArr.push(formatTime(seconds));
 		
-			this.countdownString.innerHTML = timeArr.join(":");
+            if (totalSeconds < 0) {
+                this.countdownString.innerHTML = "-" + timeArr.join(":");
+                this.countdownString.className = "countdownString negative";
+            }
+            else {
+                this.countdownString.innerHTML = timeArr.join(":");
+            }
 		},
 		handleClick: function () {
 			if (this.trigger.className.split(" ")[1] === "start") {
