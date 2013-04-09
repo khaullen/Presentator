@@ -40,14 +40,14 @@ header h2 {
 	height: 30px;
 	width: 620px;
 	padding: 10px;
-	border: 1px solid #ddd;
+	border: 1px solid #ccc;
 }
 
 #add input {
     cursor: pointer;
     display: block;
 	width: 100px;
-	border: 1px solid #ddd;
+	border: 1px solid #ccc;
     border-radius: 4px;
 	background: white;
     padding: 10px 10px;
@@ -57,14 +57,14 @@ header h2 {
 	height: 30px;
 	width: 480px;
 	padding: 10px;
-	border: 1px solid #ddd;
+	border: 1px solid #ccc;
 }
 
 #edit input[type=submit] {
 	height: 50px;
 	width: 100px;
 	margin: -50px 0 0;
-	border: 1px solid #ddd;
+	border: 1px solid #ccc;
 	background: white;
 }
 
@@ -74,13 +74,13 @@ header h2 {
 }
 
 article {
-	border: 1px solid #eee;
+	border: 1px solid #ccc;
 	border-top: none;
 	padding: 15px 10px;
 }
 
 article:first-of-type {
-	border: 1px solid #eee;
+	border: 1px solid #ccc;
 }
 
 article:nth-child(even) {
@@ -103,7 +103,7 @@ p {
 
 button.trigger {
     border-radius: 4px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     background-color: white;
     float: right;
     padding: 8px 10px;
@@ -135,7 +135,7 @@ button.trigger {
 }
 
 #completed article.complete {
-    opacity: 0.8;
+    opacity: 0.6;
 }
 
 #completed article.complete:hover {
