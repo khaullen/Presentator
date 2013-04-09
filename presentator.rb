@@ -98,11 +98,9 @@ post '/' do
     :link       =>  params[:link],
     :created_at =>  Time.now,
     :updated_at =>  Time.now,
-    :day        =>  Day.first_or_create(
-      { :presentation_date  =>  Date.today },
-      { :last_updated       =>  Time.now }
-    )
+    :day        =>  Day.first_or_create(:presentation_date => Date.today)
   )
+  p.day.update(:last_updated => Time.now)
   redirect '/'
 end
 
@@ -144,7 +142,7 @@ post '/stop-presentation/:id' do |id|
 end
 
 def get_template(template_name) 
-  if (Day.today && Time.now - Day.today.last_updated < 20)
+  if (Day.today && (Time.now - Day.today.last_updated < 20))
     @upcoming = Presentation.upcoming
     @completed = Presentation.completed
     erb template_name, :layout => false do
