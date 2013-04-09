@@ -45,11 +45,17 @@ var presentator = {
   renderPresentations: function (html) {
     var main = document.getElementById('presentations');
     main.innerHTML = html;
-    t = createTimer();
+    this.t = this.createTimer();
+  },
+  createTimer: function () {
+    var nextPresentation = document.getElementsByClassName('upcoming')[0];
+    if (nextPresentation) return new Timer(nextPresentation);
   },
   initialize: function() {
     var _this = this;
     setInterval(function () { _this.updatePresentations(); }, 10000);
+    
+    this.t = this.createTimer();
   }
 };
 
