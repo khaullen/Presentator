@@ -6,9 +6,16 @@ require 'date'
 require './settings.rb'
 
 # Build database connection string from settings and setup the connection
-db = SETTINGS[:database]
-db_string = db[:type] + "://" + db[:user] + ":" + db[:password] + "@" + db[:server] + "/" + db[:name]
-DataMapper::setup(:default, ENV['DATABASE_URL'] || db_string)
+def database_url
+  if ENV['DATABASE_URL']
+    ENV['DATABASE_URL']
+  else
+    db = SETTINGS[:database]
+    db[:type] + "://" + db[:user] + ":" + db[:password] + "@" + db[:server] + "/" + db[:name]
+  end
+end
+
+DataMapper::setup(:default, database_url)
 
 class Day
   include DataMapper::Resource
