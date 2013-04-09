@@ -2,7 +2,7 @@
 	<article class="upcoming" id="<%= p.id %>">
 		<p class="topic">
 			<a href="http://<%= p.link %>/"><%= p.topic %></a>
-			<span><a href="/<%= p.id %>">[edit]</a></span>
+			<a href="/<%= p.id %>" class="icon icon-pencil"></a>
 			<% if i == 0 %>
 				<p class="countdownString" end-time="<%= p.finish_at %>"></p>
 			<% end %>
