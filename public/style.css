@@ -34,17 +34,19 @@ header h2 {
 
 #add textarea {
 	height: 30px;
-	width: 510px;
+	width: 620px;
 	padding: 10px;
 	border: 1px solid #ddd;
 }
 
 #add input {
-	height: 50px;
+    cursor: pointer;
+    display: block;
 	width: 100px;
-	margin: -50px 0 0;
 	border: 1px solid #ddd;
+    border-radius: 4px;
 	background: white;
+    padding: 10px 10px;
 }
 
 #edit textarea {
@@ -81,10 +83,6 @@ article:nth-child(even) {
 	background: #fafafa;
 }
 
-article.complete {
-	background: #fedae3;
-}
-
 article span {
 	font-size: 0.8em;
 }
@@ -97,6 +95,13 @@ p {
 	font-size: 0.8em;
 	font-style: italic;
 	color: #888;
+}
+
+button.trigger {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+    padding: 8px 10px;
 }
 
 .countdownString {
@@ -113,4 +118,16 @@ p {
 .countdownString a {
 	display: block;
 	text-decoration: none;
+}
+
+#completed {
+    margin-top: 20px;
+}
+
+#completed article.complete {
+    opacity: 0.8;
+}
+
+#completed article.complete:hover {
+    opacity: 1.0;
 }
