@@ -101,14 +101,20 @@ button.trigger {
     border-radius: 4px;
     border: 1px solid #ddd;
     background-color: white;
+    float: right;
     padding: 8px 10px;
 }
 
 .countdownString {
-	font-size: 1.8em;
-	line-height: 0.8em;
-	float: right;
-	margin: -10px 0 0;
+	font-size: 50px;
+    text-align: center;
+    line-height: 87px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
 }
 
 .countdownString.negative {
@@ -130,4 +136,8 @@ button.trigger {
 
 #completed article.complete:hover {
     opacity: 1.0;
+}
+
+article.upcoming {
+    position: relative;
 }
