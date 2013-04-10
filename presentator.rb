@@ -119,8 +119,8 @@ get '/admin' do
   end
 end
 
-post '/start-presentation/:id' do |id|
-  p = Presentation.get(id)
+post '/start-presentation' do
+  p = Presentation.upcoming.first
   p.update(
     :started_at   =>  Time.now,
     :updated_at   =>  Time.now,
@@ -130,8 +130,8 @@ post '/start-presentation/:id' do |id|
   p.finish_at
 end
 
-post '/stop-presentation/:id' do |id|
-  p = Presentation.get(id)
+post '/stop-presentation' do
+  p = Presentation.upcoming.first
   p.update(
     :ended_at     =>  Time.now,
     :updated_at   =>  Time.now,

@@ -34,6 +34,7 @@ var utilities = {
   }
 };
 
+/*
 var presentator = {
   updatePresentations: function () {
     var _this = this;
@@ -60,3 +61,4 @@ var presentator = {
 };
 
 presentator.initialize();
+*/
