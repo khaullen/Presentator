@@ -40,7 +40,10 @@ var TimerModel = (function() {
    */
    
   var timerModel = function(endTime) {
+    this.inProgress = false;
     this.endTime = endTime;
+    this.callbacks = {};
+    this.intervalId = undefined;
   };
 	
   /*
@@ -49,11 +52,6 @@ var TimerModel = (function() {
    
   timerModel.prototype = {
     constructor: timerModel,
-    callbacks: {},
-    inProgress: false,
-    endTime: undefined,
-    intervalId: undefined,
-    
     on: function(eventName, cb) {
       this.callbacks[eventName] || (this.callbacks[eventName] = []);
       this.callbacks[eventName].push(cb);
