@@ -1,0 +1,13 @@
+<% if @presentation %>
+  <section id="edit">
+    <form action="/edit/<%= @presentation.id %>" method="post">
+      <textarea name="topic" placeholder="Topic"><%= @presentation.topic %></textarea>
+      <textarea name="presenter" placeholder="Your name"><%= @presentation.presenter %></textarea>
+      <textarea name="link" placeholder="A link to your stuff&hellip;"><%= @presentation.link %></textarea>
+      <input type="submit" value="Save">
+    </form>
+  </section>
+  <button class="delete">Delete</button>
+<% else %>
+  <p>Presentation not found.</p>
+<% end %>

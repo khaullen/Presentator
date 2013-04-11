@@ -104,6 +104,24 @@ post '/' do
   redirect '/'
 end
 
+get '/edit/:id' do |id|
+  @title = 'Edit'
+  @presentation = Presentation.get(id)
+  erb :edit
+end
+
+post '/edit/:id' do |id|
+  p = Presentation.get(id)
+  p.update(
+    :topic      =>  params[:topic],
+    :presenter  =>  params[:presenter],
+    :link       =>  params[:link],
+    :updated_at =>  Time.now
+  )
+  p.day.update(:last_updated => Time.now)
+  redirect '/'
+end
+
 get '/archive/:presentation_date' do |date|
   @presentations = Presentation.all(:day => { :presentation_date => date })
   @title = date
