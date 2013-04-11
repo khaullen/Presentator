@@ -1,7 +1,7 @@
 <% @upcoming.each_with_index do |p, i| %>
 	<article class="upcoming" id="<%= p.id %>">
 		<p class="topic">
-			<a href="http://<%= p.link %>/"><%= p.topic %></a>
+			<a href="<%= p.link %>/"><%= p.topic %></a>
 			<a href="/edit/<%= p.id %>" class="icon icon-pencil"></a>
 			<% if i == 0 %>
 				<p class="countdownString" end-time="<%= p.finish_at %>"></p>
