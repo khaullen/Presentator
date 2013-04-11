@@ -122,6 +122,12 @@ post '/edit/:id' do |id|
   redirect '/'
 end
 
+post '/delete/:id' do |id|
+  p = Presentation.get(id)
+  p.destroy
+  redirect '/'
+end
+
 get '/archive/:presentation_date' do |date|
   @presentations = Presentation.all(:day => { :presentation_date => date })
   @title = date

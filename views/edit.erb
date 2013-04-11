@@ -4,10 +4,12 @@
       <textarea name="topic" placeholder="Topic"><%= @presentation.topic %></textarea>
       <textarea name="presenter" placeholder="Your name"><%= @presentation.presenter %></textarea>
       <textarea name="link" placeholder="A link to your stuff&hellip;"><%= @presentation.link %></textarea>
-      <input type="submit" value="Save">
+      <input type="submit" value="Save" />
     </form>
   </section>
-  <button class="delete">Delete</button>
+  <form action="/delete/<%= @presentation.id %>" method="post">
+    <input type="submit" value="Delete" />
+  </form>
 <% else %>
   <p>Presentation not found.</p>
 <% end %>
