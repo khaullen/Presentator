@@ -36,41 +36,30 @@ header h2 {
 	margin: 0 0 20px;
 }
 
-#add textarea {
+#add textarea, #edit textarea {
 	height: 30px;
 	width: 620px;
 	padding: 10px;
 	border: 1px solid #ccc;
 }
 
-#add input {
-    cursor: pointer;
-    display: block;
-	width: 100px;
-	border: 1px solid #ccc;
-    border-radius: 4px;
-	background: white;
-    padding: 10px 10px;
+#add input, #edit input {
+  cursor: pointer;
+  display: block;
+  width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  padding: 10px 10px;
 }
 
-#edit textarea {
-	height: 30px;
-	width: 480px;
-	padding: 10px;
-	border: 1px solid #ccc;
-}
-
-#edit input[type=submit] {
-	height: 50px;
-	width: 100px;
-	margin: -50px 0 0;
-	border: 1px solid #ccc;
-	background: white;
-}
-
-#edit input[type=checkbox] {
-	height: 50px;
-	width: 20px;
+input.delete {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #b32b21;
+  margin-top: 20px;
+  color: white;
+  padding: 8px 10px;
 }
 
 article {
@@ -144,4 +133,12 @@ button.trigger {
 
 article.upcoming {
     position: relative;
+}
+
+.github {
+  top: 5px;
+  position: relative;
+  margin-right: 5px;
+  text-decoration: none;
+  font-size: 30px;
 }

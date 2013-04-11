@@ -60,7 +60,7 @@ input, select { vertical-align:middle; }
 /* END RESET CSS */
 
 /* font normalization inspired by  from the YUI Library's fonts.css: developer.yahoo.com/yui/ */
-body { font:13px/1.231 sans-serif; *font-size:small; } /* hack retained to preserve specificity */
+body { font:13px/1.231 sans-serif; *font-size:small; }
 select, input, textarea, button { font:99% sans-serif; }
 
 /* normalize monospace sizing
@@ -76,6 +76,7 @@ body, select, input, textarea {
 	color: #444;
 	/* set your base font here, to apply evenly */
 	/* font-family: Georgia, serif;  */
+  font-family: Arial, Helvetica, Sans-Serif;
 }
 
 /* headers (h1,h2,etc) have no default font-size or margin. define those yourself. */
