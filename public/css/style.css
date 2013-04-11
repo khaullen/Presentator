@@ -142,3 +142,10 @@ article.upcoming {
   text-decoration: none;
   font-size: 30px;
 }
+
+#add .minutes {
+  margin-bottom: 20px;
+}
+#add select {
+  background-color: white;
+}
