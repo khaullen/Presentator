@@ -17,11 +17,14 @@ var Timer = (function() {
     this.button = button;
 
     this.model.on('tick', function(timeObject) { _this.setTime(timeObject); });
-    this.model.on('activate', function(active) { _this.toggleButton(active); });
-    
+    if (this.model.endTime) this.model.activate(true); 
+
     var _this = this;
     this.clickHandler = function (event) { _this.model.toggleRequest(); }; // reference to handler so we can remove it later
-    if (this.button) this.button.addEventListener('click', this.clickHandler);
+    if (this.button) {
+      this.button.addEventListener('click', this.clickHandler);
+      this.model.on('activate', function(active) { _this.toggleButton(active); });
+    }
   };
 	
   /*

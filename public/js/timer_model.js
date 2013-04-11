@@ -41,7 +41,6 @@ var TimerModel = (function() {
    
   var timerModel = function(endTime) {
     this.endTime = endTime;
-    if (this.endTime) this.activate(true);
   };
 	
   /*
