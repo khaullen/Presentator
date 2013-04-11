@@ -4,8 +4,11 @@ var Presentator = (function() {
    * Constructor
    */
   var presentator = function(presentations) {
+    var _this = this;
     this.presentations = presentations;
     this.timer = this.createTimer();
+
+    setInterval(function() { _this.updatePresentations(); }, 10000);
   };
 	
   /*
@@ -18,7 +21,7 @@ var Presentator = (function() {
       this.timer.destroy();
       this.updatePresentations();
     },
-    updatePresentations: function () {
+    updatePresentations: function() {
       var _this = this;
       var success = function(html) {
         _this.presentations.innerHTML = html;
@@ -33,7 +36,6 @@ var Presentator = (function() {
         var countdown = nextPresentation.getElementsByClassName('countdownString')[0];
         var button = nextPresentation.getElementsByClassName('trigger')[0];
         var endTime = countdown.getAttribute('end-time');
-    
 
         var tModel = new TimerModel(endTime);
         var timer = new Timer(tModel, countdown, button);

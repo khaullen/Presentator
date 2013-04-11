@@ -33,32 +33,3 @@ var utilities = {
     return array.indexOf(className) > -1;
   }
 };
-
-/*
-var presentator = {
-  updatePresentations: function () {
-    var _this = this;
-    var success = function(html) {
-      _this.renderPresentations(html);
-    };
-    utilities.makeAjaxRequest('GET', (window.location.pathname === '/admin' ? '/admin' : '') + '/update', success);
-  },
-  renderPresentations: function (html) {
-    var main = document.getElementById('presentations');
-    main.innerHTML = html;
-    this.t = this.createTimer();
-  },
-  createTimer: function () {
-    var nextPresentation = document.getElementsByClassName('upcoming')[0];
-    if (nextPresentation) return new Timer(nextPresentation);
-  },
-  initialize: function() {
-    var _this = this;
-    setInterval(function () { _this.updatePresentations(); }, 10000);
-    
-    this.t = this.createTimer();
-  }
-};
-
-presentator.initialize();
-*/
