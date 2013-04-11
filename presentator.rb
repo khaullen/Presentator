@@ -80,7 +80,7 @@ get '/' do
     @upcoming = Presentation.upcoming
     @completed = Presentation.completed
     @title = 'Today'
-    erb :home do
+    erb :form do
       erb :presentations do
         erb :completed
       end
