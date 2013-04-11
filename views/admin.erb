@@ -4,7 +4,7 @@
         <% classes = p.in_progress ? 'trigger' : 'trigger start' %>
         <article class="upcoming" id="<%= p.id %>">
             <p class="topic">
-                <a href="http://<%= p.link %>/"><%= p.topic %></a>
+                <a href="<%= p.link %>"><%= p.topic %></a>
                 <% if i == 0 %>
                     <button class="<%= classes %>"><%= button_text %></button>
                     <p class="countdownString" end-time="<%= p.finish_at %>"></p>
