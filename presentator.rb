@@ -96,6 +96,7 @@ post '/' do
     :topic      =>  params[:topic],
     :presenter  =>  params[:presenter],
     :link       =>  params[:link],
+    :time_allotted  =>  (params[:time_allotted].to_i * 60),
     :created_at =>  Time.now,
     :updated_at =>  Time.now,
     :day        =>  Day.first_or_create(:presentation_date => Date.today)
