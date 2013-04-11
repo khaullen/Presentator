@@ -110,19 +110,20 @@ get '/edit/:id' do |id|
   erb :edit
 end
 
-post '/edit/:id' do |id|
+put '/edit/:id' do |id|
   p = Presentation.get(id)
   p.update(
     :topic      =>  params[:topic],
     :presenter  =>  params[:presenter],
     :link       =>  params[:link],
+    #:complete   =>  params[:complete] ? 1 : 0,
     :updated_at =>  Time.now
   )
   p.day.update(:last_updated => Time.now)
   redirect '/'
 end
 
-post '/delete/:id' do |id|
+delete '/delete/:id' do |id|
   p = Presentation.get(id)
   p.destroy
   redirect '/'

@@ -1,13 +1,16 @@
 <% if @presentation %>
   <section id="edit">
     <form action="/edit/<%= @presentation.id %>" method="post">
+      <input type="hidden" name="_method" value="put">
       <textarea name="topic" placeholder="Topic"><%= @presentation.topic %></textarea>
       <textarea name="presenter" placeholder="Your name"><%= @presentation.presenter %></textarea>
       <textarea name="link" placeholder="A link to your stuff&hellip;"><%= @presentation.link %></textarea>
+      <!--<input type="checkbox" name="complete" <%= "checked" if @presentation.complete %> />-->
       <input type="submit" value="Save" />
     </form>
   </section>
   <form action="/delete/<%= @presentation.id %>" method="post">
+    <input type="hidden" name="_method" value="delete">
     <input type="submit" value="Delete" />
   </form>
 <% else %>
