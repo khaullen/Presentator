@@ -9,6 +9,6 @@ SETTINGS = {
         :name => "presentator"
     },
     :presentation => {
-        :day => 4
+        :day => 5
     }
 }
