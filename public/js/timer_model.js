@@ -25,13 +25,15 @@ var TimerModel = (function() {
   // Returns an object with properties for hours, minutes, seconds, and negative
   var createTimeObject = function(currentTime, endTime) {
     var totalSeconds = parseInt(endTime - currentTime.getTime() / 1000);
+    var expired = (endTime < currentTime.getTime() / 1000);
+    totalSeconds -= expired;  // correct for parseInt always rounding down (double-zero)
     var absolute = Math.abs(totalSeconds);
 
     return {
       hours: parseInt(absolute / 3600) % 24,
       minutes: parseInt(absolute / 60) % 60,
       seconds: absolute % 60,
-      negative: totalSeconds < 0
+      negative: expired
     }
   };
 
