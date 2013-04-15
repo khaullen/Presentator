@@ -1,7 +1,7 @@
 <% @completed.each_with_index do |p, i| %>
 	<article class="complete" id="<%= p.id %>">
 		<p class="topic">
-			<a href="<%= p.link %>"><%= p.topic %></a>
+			<a href="<%= p.links.first && p.links.first.uri %>"><%= p.topic %></a>
 			<a href="/edit/<%= p.id %>" class="icon icon-pencil"></a>
 		</p>
 		<p class="meta"><%= p.presenter %></p>

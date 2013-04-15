@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'data_mapper'
 require 'date'
+require 'uri'
 require './settings.rb'
 
 # Build database connection string from settings and setup the connection
@@ -36,7 +37,6 @@ class Presentation
   property :id, Serial
   property :presenter, String, :required => true
   property :topic, Text, :required => true
-  property :link, Text
   property :time_allotted, Integer, :default => 120
   property :complete, Boolean, :required => true, :default => false
   property :created_at, Time
@@ -46,6 +46,7 @@ class Presentation
   property :ended_at, Time
   
   belongs_to :day
+  has n, :links
   
   def self.upcoming
     all(:complete => false, :day => { :presentation_date => Date.today })
@@ -60,6 +61,15 @@ class Presentation
   end
 end
 
+class Link
+  include DataMapper::Resource
+  
+  property :id, Serial
+  property :uri, URI, :required => true
+  
+  belongs_to :presentation
+end
+
 DataMapper.finalize.auto_upgrade!
 
 helpers do
@@ -71,6 +81,12 @@ end
 def last_thursday(weeks_ago = 0)
   today = Date.today
   today - (today.cwday + 3) % 7 - weeks_ago * 7
+end
+
+def create_links(string)
+  URI.extract(string, ["http", "https"]).map do |link|
+    Link.create(:uri => URI(link))
+  end
 end
 
 get '/' do
@@ -93,13 +109,13 @@ end
 
 post '/' do
   p = Presentation.create(
-    :topic      =>  params[:topic],
-    :presenter  =>  params[:presenter],
-    :link       =>  params[:link],
+    :topic          =>  params[:topic],
+    :presenter      =>  params[:presenter],
     :time_allotted  =>  (params[:time_allotted].to_i * 60),
-    :created_at =>  Time.now,
-    :updated_at =>  Time.now,
-    :day        =>  Day.first_or_create(:presentation_date => Date.today)
+    :created_at     =>  Time.now,
+    :updated_at     =>  Time.now,
+    :day            =>  Day.first_or_create(:presentation_date => Date.today),
+    :links          =>  create_links(params[:link])
   )
   p.day.update(:last_updated => Time.now)
   redirect '/'
@@ -113,12 +129,13 @@ end
 
 put '/edit/:id' do |id|
   p = Presentation.get(id)
+  p.links.destroy
   p.update(
     :topic      =>  params[:topic],
     :presenter  =>  params[:presenter],
-    :link       =>  params[:link],
     #:complete   =>  params[:complete] ? 1 : 0,
-    :updated_at =>  Time.now
+    :updated_at =>  Time.now,
+    :links      =>  create_links(params[:link])
   )
   p.day.update(:last_updated => Time.now)
   redirect '/'

@@ -4,7 +4,7 @@
       <input type="hidden" name="_method" value="put">
       <textarea name="topic" placeholder="Topic"><%= @presentation.topic %></textarea>
       <textarea name="presenter" placeholder="Your name"><%= @presentation.presenter %></textarea>
-      <textarea name="link" placeholder="A link to your stuff&hellip;"><%= @presentation.link %></textarea>
+      <textarea name="link" placeholder="A link to your stuff&hellip;"><%= @presentation.links.map { |link| link.uri }.join("\n") %></textarea>
       <!--<input type="checkbox" name="complete" <%= "checked" if @presentation.complete %> />-->
       <input type="submit" value="Save" />
     </form>
