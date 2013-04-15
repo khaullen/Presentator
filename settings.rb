@@ -1,5 +1,3 @@
-#!usr/bin/env ruby
-
 SETTINGS = {
     :database => {
         :type => "postgres",
