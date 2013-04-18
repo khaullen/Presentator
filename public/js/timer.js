@@ -56,7 +56,8 @@ var Timer = (function() {
 		 * Plays audio if it's the appropriate time to do so.
 		 */
 		playAudio: function(timeObject) {
-		  if (timeObject.hours + timeObject.minutes + timeObject.seconds == 0) {
+		  if ((timeObject.hours + timeObject.minutes + timeObject.seconds == 0) || (timeObject.negative && (timeObject.seconds == 0))) {
+		    // plays audio on timer expiration and every minute thereafter
 		    this.audio.play();
 		  }
 		},
