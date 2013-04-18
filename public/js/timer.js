@@ -10,13 +10,15 @@ var Timer = (function() {
   /*
    * Constructor
    */
-  var timer = function(model, countdown, button) {
+  var timer = function(model, countdown, button, audio) {
     var _this = this;
     this.model = model;
     this.countdown = countdown;
     this.button = button;
+    this.audio = audio;
 
     this.model.on('tick', function(timeObject) { _this.setTime(timeObject); });
+    this.model.on('tick', function(timeObject) { _this.playAudio(timeObject); });
     if (this.model.endTime) this.model.activate(true); 
 
     var _this = this;
@@ -49,6 +51,14 @@ var Timer = (function() {
       } else {
         this.countdown.innerHTML = timeArr.join(":");
       }
+		},
+		/*
+		 * Plays audio if it's the appropriate time to do so.
+		 */
+		playAudio: function(timeObject) {
+		  if (timeObject.hours + timeObject.minutes + timeObject.seconds == 0) {
+		    this.audio.play();
+		  }
 		},
     /*
      * Handles when the trigger button is clicked.

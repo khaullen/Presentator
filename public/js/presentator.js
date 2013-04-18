@@ -35,11 +35,12 @@ var Presentator = (function() {
 		  if (nextPresentation) {
         var countdown = nextPresentation.getElementsByClassName('countdownString')[0];
         var button = nextPresentation.getElementsByClassName('trigger')[0];
+        var audio = document.getElementById('duck');
         var endTimeString = countdown.getAttribute('end-time');
         var endTime = endTimeString === "" ? undefined : parseInt(endTimeString);
 
         var tModel = new TimerModel(endTime);
-        var timer = new Timer(tModel, countdown, button);
+        var timer = new Timer(tModel, countdown, button, audio);
         timer.model.on('activate', function(active) { _this.updatePage(active); });
         
         return timer;
