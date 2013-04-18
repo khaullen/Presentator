@@ -1,7 +1,7 @@
 <% if @presentation %>
   <section id="edit">
     <form action="/edit/<%= @presentation.id %>" method="post">
-      <input type="hidden" name="_method" value="put">
+      <input type="hidden" name="_method" value="put" />
       <textarea name="topic" placeholder="Topic"><%= @presentation.topic %></textarea>
       <textarea name="presenter" placeholder="Your name"><%= @presentation.presenter %></textarea>
       <textarea name="link" placeholder="A link to your stuff&hellip;"><%= @presentation.links.map { |link| link.uri }.join("\n") %></textarea>
@@ -10,7 +10,7 @@
     </form>
   </section>
   <form action="/delete/<%= @presentation.id %>" method="post">
-    <input type="hidden" name="_method" value="delete">
+    <input type="hidden" name="_method" value="delete" />
     <input class="delete" type="submit" value="Delete" />
   </form>
 <% else %>

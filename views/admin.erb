@@ -1,25 +1,36 @@
 <div id="presentations">
-    <% @upcoming.each_with_index do |p, i| %>
-        <% button_text = p.in_progress ? 'Stop' : 'Start' %>
-        <% classes = p.in_progress ? 'trigger' : 'trigger start' %>
-        <article class="upcoming" id="<%= p.id %>">
-            <p class="topic">
-                <a href="<%= p.links.first && p.links.first.uri %>"><%= p.topic %></a>
-                <% if i == 0 %>
-                    <button class="<%= classes %>"><%= button_text %></button>
-                    <p class="countdownString" end-time="<%= p.finish_at %>"></p>
-                <% else %>
-                    <a href="#" class="icon icon-circle-arrow-up"></a>
-                <% end %>
-            </p>
-            <p class="meta"><%= p.presenter %></p>
-            <p class="meta">
-                Created: <%= p.created_at %>
-            </p>
-        </article>
-    <% end %>
+  <% @upcoming.each_with_index do |p, i| %>
+    <% button_text = p.in_progress ? 'Stop' : 'Start' %>
+    <% classes = p.in_progress ? 'trigger' : 'trigger start' %>
+    <article class="upcoming" id="<%= p.id %>">
+    
+      <div class="topic">
+        <a href="<%= p.links.first && p.links.first.uri %>"><%= p.topic %></a>
+        <% if i == 0 %>
+        
+          <button class="<%= classes %>"><%= button_text %></button>
+          <p class="countdownString" end-time="<%= p.finish_at %>"></p>
+          
+        <% else %>
+              
+          <form class="up-form" action="/up/<%= p.id %>" method="post">
+            <input type="hidden" name="_method" value="put" />
+            <button type="submit">
+                <i class="icon icon-circle-arrow-up"></i>
+            </button>
+          </form>
 
-    <div id="completed">
-        <%= yield %>
-    </div>
+        <% end %>
+      </div>
+
+      <p class="meta"><%= p.presenter %></p>
+      <p class="meta">
+        Created: <%= p.created_at %>
+      </p>
+    </article>
+  <% end %>
+
+  <div id="completed">
+    <%= yield %>
+  </div>
 </div>

@@ -131,6 +131,16 @@ button.trigger {
     opacity: 1.0;
 }
 
+.up-form {
+  display: inline;
+}
+
+.up-form button {
+  background-color: transparent;
+  border: none;
+  padding: 0; 
+}
+
 article.upcoming {
     position: relative;
 }

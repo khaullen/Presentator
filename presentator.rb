@@ -35,6 +35,7 @@ class Presentation
   include DataMapper::Resource
   
   property :id, Serial
+  property :position, Float
   property :presenter, String, :required => true
   property :topic, Text, :required => true
   property :time_allotted, Integer, :default => 120
@@ -49,11 +50,11 @@ class Presentation
   has n, :links
   
   def self.upcoming
-    all(:complete => false, :day => { :presentation_date => Date.today })
+    all(:complete => false, :day => { :presentation_date => Date.today }, :order => [ :position.asc ])
   end
   
   def self.completed
-    all(:complete=>true, :day => { :presentation_date => Date.today })
+    all(:complete=>true, :day => { :presentation_date => Date.today }, :order => [ :position.asc ])
   end
   
   def finish_at
@@ -117,6 +118,7 @@ post '/' do
     :day            =>  Day.first_or_create(:presentation_date => Date.today),
     :links          =>  create_links(params[:link])
   )
+  p.update(:position => p.id)
   p.day.update(:last_updated => Time.now)
   redirect '/'
 end
@@ -182,6 +184,25 @@ post '/stop-presentation' do
     :complete     =>  true
   )
   p.day.update( :last_updated => Time.now )
+end
+
+def move_to_top(presentation)
+  # If a presentation is in progress, we want to move the presentation to just below the one in progress
+  if (Presentation.upcoming.first.in_progress)
+    lower = Presentation.upcoming.first.position
+    higher = Presentation.upcoming[1].position
+  else
+    lower = (Presentation.completed.last && Presentation.completed.last.position) || 0
+    higher = Presentation.upcoming.first.position
+  end
+  presentation.update( :position => (higher + lower) / 2 )
+end
+
+put '/up/:id' do |id|
+  p = Presentation.get(id)
+  move_to_top(p)
+  p.day.update( :last_updated => Time.now )
+  redirect '/admin'
 end
 
 def get_template(template_name) 
