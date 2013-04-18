@@ -20,9 +20,8 @@ var Timer = (function() {
     if (this.model.endTime) this.model.activate(true); 
 
     var _this = this;
-    this.clickHandler = function (event) { _this.model.toggleRequest(); }; // reference to handler so we can remove it later
     if (this.button) {
-      this.button.addEventListener('click', this.clickHandler);
+      this.button.addEventListener('click', function (event) { _this.model.toggleRequest(); });
       this.model.on('activate', function(active) { _this.toggleButton(active); });
     }
   };
@@ -64,9 +63,6 @@ var Timer = (function() {
 				this.button.innerHTML = 'Start';
         utilities.changeClassName('start', this.button, true);
 			}
-		},
-		destroy: function() {	
-      if (this.button) this.button.removeEventListener('click', this.clickHandler);
 		}
 	};
 	

@@ -18,7 +18,6 @@ var Presentator = (function() {
 		constructor: presentator,
     updatePage: function(active) {
       if (active) return;
-      this.timer.destroy();
       this.updatePresentations();
     },
     updatePresentations: function() {
