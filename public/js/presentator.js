@@ -25,6 +25,7 @@ var Presentator = (function() {
       var _this = this;
       var success = function(html) {
         _this.presentations.innerHTML = html;
+        if (_this.timer) clearInterval(_this.timer.model.intervalId);
         _this.timer = _this.createTimer();
       };
       utilities.makeAjaxRequest('GET', (window.location.pathname === '/admin' ? '/admin' : '') + '/update', success);
