@@ -110,8 +110,8 @@ end
 
 post '/' do
   p = Presentation.create(
-    :topic          =>  params[:topic],
-    :presenter      =>  params[:presenter],
+    :topic          =>  h(params[:topic]),
+    :presenter      =>  h(params[:presenter]),
     :time_allotted  =>  (params[:time_allotted].to_i * 60),
     :created_at     =>  Time.now,
     :updated_at     =>  Time.now,
@@ -133,8 +133,8 @@ put '/edit/:id' do |id|
   p = Presentation.get(id)
   p.links.destroy
   p.update(
-    :topic      =>  params[:topic],
-    :presenter  =>  params[:presenter],
+    :topic      =>  h(params[:topic]),
+    :presenter  =>  h(params[:presenter]),
     #:complete   =>  params[:complete] ? 1 : 0,
     :updated_at =>  Time.now,
     :links      =>  create_links(params[:link])
