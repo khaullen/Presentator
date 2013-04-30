@@ -79,9 +79,8 @@ helpers do
 end
 
 
-def last_thursday(weeks_ago = 0)
-  today = Date.today
-  today - (today.cwday + 3) % 7 - weeks_ago * 7
+def last_thursday(weeks_ago = 0, start = Date.today)
+  start - (start.cwday + 3) % 7 - weeks_ago * 7
 end
 
 def create_links(string)
@@ -97,6 +96,7 @@ get '/' do
     @upcoming = Presentation.upcoming
     @completed = Presentation.completed
     @title = 'Today'
+    @previous = "/archive/#{last_thursday(1)}"
     erb :form do
       erb :presentations do
         erb :completed
@@ -152,6 +152,8 @@ end
 get '/archive/:presentation_date' do |date|
   @presentations = Presentation.all(:day => { :presentation_date => date })
   @title = date
+  @next = date == last_thursday.to_s ? nil : "/archive/#{last_thursday(-1, Date.parse(date))}"
+  @previous = "/archive/#{last_thursday(1, Date.parse(date))}"
   erb :archive
 end
 

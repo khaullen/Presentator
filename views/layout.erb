@@ -19,6 +19,17 @@
 			<%= yield %>
 		</div>
 		
+		<table class="nav">
+			<tr>
+				<% if @next %>
+				<td class="left"><a href="<%= @next %>">Next</a></td>
+				<% end %>
+				<% if @previous %>
+				<td class="right"><a href="<%= @previous %>">Previous</a></td>
+				<% end %>
+			</tr>
+		</table>
+
 		<footer>
       <p>
         <a href="https://github.com/RedCupCorporation/Presentator" class="github">

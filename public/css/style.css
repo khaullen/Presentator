@@ -159,3 +159,11 @@ article.upcoming {
 #add select {
   background-color: white;
 }
+
+td.right {
+  text-align: right;
+}
+
+table.nav {
+  width: 100%;
+}
